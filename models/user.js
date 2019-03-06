@@ -1,30 +1,38 @@
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    fullName: { type: String },
-    email: { type: String },
-    password: { type: String }
+  fullName: {type: String},
+  email: {type: String},
+  password: {type: String},
+  tasks: [
+    {type: Schema.Types.ObjectId, ref: 'Task'},
+  ],
 }, {
-    timestamps: true
+  timestamps: true,
 });
 
 
-UserSchema.pre("save", function(next) {
+UserSchema.pre('save', function(next) {
+  // ENCRYPT password
+  const user = this;
+  if (!user.isModified('password')) {
+    return next();
+  }
 
-    // ENCRYPT password
-    const user = this;
-    if (!user.isModified("password")) {
-        return next();
-    }
-
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            user.password = hash;
-            next();
-        }); // ends bcrypt
-    }); // end UserSchema
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      user.password = hash;
+      next();
+    }); // ends bcrypt
+  }); // end UserSchema
 });
 
-module.exports = mongoose.model("User", UserSchema);
+UserSchema.methods.comparePassword = function(password, done) {
+  bcrypt.compare(password, this.password, (err, isMatch) => {
+    done(err, isMatch);
+  });
+};
+
+module.exports = mongoose.model('User', UserSchema);

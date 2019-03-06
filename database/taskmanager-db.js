@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const assert = require('assert');
 
-const url = process.env.MONGODB_URI || "mongodb://localhost/apiprojectdatabase";
+const url = process.env.MONGODB_URI || "mongodb://localhost/taskmanager-db";
 mongoose.Promise = global.Promise;
 
 mongoose.connect (

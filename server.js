@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan'); // for logging in terminal
+const db = require('./database/taskmanager-db');// database connection
 
 // tell app to use npm packages
 app.use(bodyParser.json());
@@ -16,14 +17,16 @@ app.use(cookieParser());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(expressValidator());
-app.use(express.urlencoded({ extended: false }));
-require('./database/apiprojectdatabase');// database connection
+// app.use(express.urlencoded({ extended: false }));
 
 
 
 // routes
-const userRouter = require('./routers/user');
-app.use(userRouter);
+// const userRouter = require('./routers/user');
+// const taskRouter = require('./routers/task');
+const auth = require('./controllers/user');
+app.use(auth);
+// app.use(taskRouter);
 
 
 
@@ -32,4 +35,4 @@ app.listen(port);
 
 
 
-module.exports = app;
+module.exports = app

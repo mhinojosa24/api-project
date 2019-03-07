@@ -1,5 +1,10 @@
 const newTask = require('../controllers/task');
-const router = require('express').router();
+const router = require('express').Router();
+
+
+
+
+
 // const Task = require('../models/task');
 
 // users.route('/user/:id/task/new')
@@ -16,6 +21,9 @@ const router = require('express').router();
 //         })
 //
 //     })
+
+
+
 
 
 router.route('/user/:id/task/new')

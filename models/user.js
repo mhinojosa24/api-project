@@ -6,9 +6,7 @@ const UserSchema = new Schema({
   fullName: {type: String},
   email: {type: String},
   password: {type: String},
-  tasks: [
-    {type: Schema.Types.ObjectId, ref: 'Task'},
-  ],
+  tasks: [{type: Schema.Types.ObjectId, ref: 'Task'}],
 }, {
   timestamps: true,
 });
